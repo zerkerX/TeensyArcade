@@ -74,11 +74,28 @@ void loop()
         button_states[button] = !digitalRead(button_pins[button]);
     }
     
-    Serial.printf("UDLR: %d%d%d%d\r\n", 
+    Serial.printf("UDLR: %d%d%d%d, Top: %d%d%d%d%d%d, Side: %d%d, Front %d%d, Toggles: %d%d%d\r\n", 
         button_states[STICK_UP],
         button_states[STICK_DOWN],
         button_states[STICK_LEFT],
-        button_states[STICK_RIGHT]
+        button_states[STICK_RIGHT],
+
+        button_states[BUTTON_BLUE],
+        button_states[BUTTON_GREEN],
+        button_states[BUTTON_RED],
+        button_states[BUTTON_TOP_LEFT],
+        button_states[BUTTON_YELLOW],
+        button_states[BUTTON_TOP_RIGHT],
+
+        button_states[BUTTON_PB_LEFT],
+        button_states[BUTTON_PB_RIGHT],
+
+        button_states[BUTTON_FRONT_WHITE],
+        button_states[BUTTON_FRONT_BLACK],
+
+        button_states[TOGGLE_PUSH],
+        button_states[TOGGLE_SWITCH_1],
+        button_states[TOGGLE_SWITCH_2]
         );
 
     delay(100);
