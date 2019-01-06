@@ -2,8 +2,8 @@
 #include "ArcadeStick.hpp"
 
 #define SNES_LATCH 22
-#define SNES_CLOCK 23
-#define SNES_DATA 21
+#define SNES_CLOCK 21
+#define SNES_DATA 23
 
 ArcadeStick stick;
 
