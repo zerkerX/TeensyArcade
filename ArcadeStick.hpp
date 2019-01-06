@@ -21,6 +21,9 @@ class ArcadeStick
         TOGGLE_PUSH,
         TOGGLE_SWITCH_1,
         TOGGLE_SWITCH_2,
+        EXTRA_1,
+        EXTRA_2,
+        EXTRA_3,
         NUM_BUTTONS
     };
     
@@ -126,6 +129,10 @@ class ArcadeStick
         
         xbox_button_array[XBOX_LB] = button_states[lb];
         xbox_button_array[XBOX_RB] = button_states[rb];
+
+        xbox_button_array[XBOX_L3] = button_states[EXTRA_1];
+        xbox_button_array[XBOX_R3] = button_states[EXTRA_2];
+        xbox_button_array[XBOX_LOGO] = button_states[EXTRA_3];
         
         if (button_states[lt])
             left_trigger = 255;
@@ -228,6 +235,10 @@ class ArcadeStick
         9, // TOGGLE_PUSH
         8, // TOGGLE_SWITCH_1
         10, // TOGGLE_SWITCH_2
+        // Extras follow:
+        21,
+        22,
+        23
     };
 
     bool button_states[NUM_BUTTONS] = { false };
