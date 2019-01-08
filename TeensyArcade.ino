@@ -1,13 +1,14 @@
 #include <xinput.h>
 #include "ArcadeStick.hpp"
+#include "XInputMapper.hpp"
 
 #define SNES_LATCH 22
 #define SNES_CLOCK 21
 #define SNES_DATA 23
 
 ArcadeStick stick;
-
 XINPUT xinp(NO_LED);
+XInputMapper xinp_map(stick);
 
 void setup()
 {
@@ -19,18 +20,7 @@ void setup()
 void loop()
 {
     stick.load();
-
-    xinp.buttonArrayUpdate(stick.getButtonArray());
-    uint8_t * dpad = stick.getDpadArray();
-    xinp.dpadUpdate(dpad[ArcadeStick::XBOX_DPAD_UP], 
-        dpad[ArcadeStick::XBOX_DPAD_DOWN],
-        dpad[ArcadeStick::XBOX_DPAD_LEFT],
-        dpad[ArcadeStick::XBOX_DPAD_RIGHT] );
-    xinp.triggerUpdate(
-        stick.getLeftTrigger(),
-        stick.getRightTrigger() );
-    xinp.stickUpdate(STICK_LEFT, stick.getStickX(), stick.getStickY());
-
+    xinp_map.map_states(xinp);
     xinp.sendXinput();
     xinp.receiveXinput();
 }
