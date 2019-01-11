@@ -1,6 +1,8 @@
 #ifndef ARCADE_STICK_HPP
 #define ARCADE_STICK_HPP
 
+#include <Arduino.h>
+
 class ArcadeStick
 {
   public:
