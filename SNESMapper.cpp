@@ -48,10 +48,7 @@ void latchvalues()
     shiftreg = shiftreg >> 1;
 }
 
-/** ISR for the SNES CLOCK pulse. Shifts the next value onto the data line.
- * Note this is technically the same clock pulse as the SNES samples at,
- * but with ISR overhead, we will always be after the sample and thus preparing
- * the NEXT value.*/
+/** ISR for the SNES CLOCK pulse. Shifts the next value onto the data line. */
 void shiftvalues()
 {
     digitalWrite(SNES_DATA, shiftreg & 1);
@@ -65,7 +62,7 @@ void init(void)
     pinMode(SNES_CLOCK, INPUT_PULLUP);
     pinMode(SNES_DATA, OUTPUT);
     
-    attachInterrupt(digitalPinToInterrupt(SNES_CLOCK), shiftvalues, FALLING);
+    attachInterrupt(digitalPinToInterrupt(SNES_CLOCK), shiftvalues, RISING);
     attachInterrupt(digitalPinToInterrupt(SNES_LATCH), latchvalues, RISING);
 }
 
