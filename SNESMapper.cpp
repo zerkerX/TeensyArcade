@@ -20,8 +20,8 @@ union snespad_t
     {
         // Clock Data to the right/LSB, but board is Little Endian. 
         // Top entries are therefore clocked first
-        uint16_t   button_B: 1;
-        uint16_t   button_Y: 1;
+        uint16_t   button_B: 1; // Also NES A
+        uint16_t   button_Y: 1; // Also NES B
         uint16_t   button_Select: 1;
         uint16_t   button_Start: 1;
         uint16_t   dpad_up: 1;
@@ -69,22 +69,42 @@ void init(void)
 
 void load(const ArcadeStick & stick)
 {
-    /* The SNES data should be inverted logic (high = released), so
-     * reverse the state of the joystick itself */
-     
     /* NOTE: We intentionally don't clear the existing state, merely overwrite
      * it. If we get interrupted by the ISR, we don't want buttons toggling */
+
+    /* Pre-define button states for the alternate pinball button mappings.
+     * This is so we can assign the final button state once and avoid
+     * glitching if the ISR catches us mid-update */
+    bool nes_pb_left = false, nes_pb_right = false, 
+        bumper_pb_left = false, bumper_pb_right = false; 
+
+    if (stick.button(ArcadeStick::TOGGLE_PUSH))
+    {
+        /* L/R button mode */
+        bumper_pb_left = stick.button(ArcadeStick::BUTTON_PB_LEFT);
+        bumper_pb_right = stick.button(ArcadeStick::BUTTON_PB_RIGHT);
+    }
+    else
+    {
+        /* NES-style pinball mode */
+        nes_pb_left = stick.button(ArcadeStick::BUTTON_PB_LEFT);
+        nes_pb_right = stick.button(ArcadeStick::BUTTON_PB_RIGHT);
+    }
+
+
+    /* The SNES data should be inverted logic (high = released), so
+     * reverse the state of the joystick itself */
     snesdata.dpad_up = !stick.button(ArcadeStick::JSTICK_UP);
     snesdata.dpad_down = !stick.button(ArcadeStick::JSTICK_DOWN);
-    snesdata.dpad_left = !stick.button(ArcadeStick::JSTICK_LEFT);
+    snesdata.dpad_left = !(stick.button(ArcadeStick::JSTICK_LEFT) || nes_pb_left);
     snesdata.dpad_right = !stick.button(ArcadeStick::JSTICK_RIGHT);
     
     snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_BLUE);
-    snesdata.button_B = !stick.button(ArcadeStick::BUTTON_GREEN);
+    snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_GREEN) || nes_pb_right);
     snesdata.button_A = !stick.button(ArcadeStick::BUTTON_RED);
     snesdata.button_X = !stick.button(ArcadeStick::BUTTON_YELLOW);
-    snesdata.button_L = !stick.button(ArcadeStick::BUTTON_TOP_LEFT);
-    snesdata.button_R = !stick.button(ArcadeStick::BUTTON_TOP_RIGHT);
+    snesdata.button_L = !(stick.button(ArcadeStick::BUTTON_TOP_LEFT) || bumper_pb_left);
+    snesdata.button_R = !(stick.button(ArcadeStick::BUTTON_TOP_RIGHT) || bumper_pb_right);
     snesdata.button_Select = !stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
     snesdata.button_Start = !stick.button(ArcadeStick::BUTTON_FRONT_BLACK);
 }
