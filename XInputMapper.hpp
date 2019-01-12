@@ -57,7 +57,7 @@ class XInputMapper
         }
         
         // Select standard vs fighting game layout
-        if (stick.button(ArcadeStick::TOGGLE_SWITCH_2))
+        if (!stick.button(ArcadeStick::TOGGLE_SWITCH_2))
         {
             // Standard layout
             xbox_button_array[XBOX_A] = stick.button(ArcadeStick::BUTTON_GREEN);
