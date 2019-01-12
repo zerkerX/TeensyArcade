@@ -99,12 +99,55 @@ void load(const ArcadeStick & stick)
     snesdata.dpad_left = !(stick.button(ArcadeStick::JSTICK_LEFT) || nes_pb_left);
     snesdata.dpad_right = !stick.button(ArcadeStick::JSTICK_RIGHT);
     
-    snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_BLUE);
-    snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_GREEN) || nes_pb_right);
-    snesdata.button_A = !stick.button(ArcadeStick::BUTTON_RED);
-    snesdata.button_X = !stick.button(ArcadeStick::BUTTON_YELLOW);
-    snesdata.button_L = !(stick.button(ArcadeStick::BUTTON_TOP_LEFT) || bumper_pb_left);
-    snesdata.button_R = !(stick.button(ArcadeStick::BUTTON_TOP_RIGHT) || bumper_pb_right);
+    /* Four possible layouts based on combinations of the two switches */
+    if (stick.button(ArcadeStick::TOGGLE_SWITCH_1))
+    {
+        if (stick.button(ArcadeStick::TOGGLE_SWITCH_2))
+        {
+            /* Fighting game layout */
+            snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_TOP_LEFT);
+            snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_BLUE) || nes_pb_right);
+            snesdata.button_A = !stick.button(ArcadeStick::BUTTON_GREEN);
+            snesdata.button_X = !stick.button(ArcadeStick::BUTTON_YELLOW);
+            snesdata.button_L = !(stick.button(ArcadeStick::BUTTON_TOP_RIGHT) || bumper_pb_left);
+            snesdata.button_R = !(stick.button(ArcadeStick::BUTTON_RED) || bumper_pb_right);
+        }
+        else
+        {
+            /* Normal layout */
+            snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_BLUE);
+            snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_GREEN) || nes_pb_right);
+            snesdata.button_A = !stick.button(ArcadeStick::BUTTON_RED);
+            snesdata.button_X = !stick.button(ArcadeStick::BUTTON_YELLOW);
+            snesdata.button_L = !(stick.button(ArcadeStick::BUTTON_TOP_LEFT) || bumper_pb_left);
+            snesdata.button_R = !(stick.button(ArcadeStick::BUTTON_TOP_RIGHT) || bumper_pb_right);
+        }
+    }
+    else
+    {
+        if (stick.button(ArcadeStick::TOGGLE_SWITCH_2))
+        {
+            /* Neo Geo-style layout (YBXA) */
+            snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_BLUE);
+            snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_TOP_LEFT) || nes_pb_right);
+            snesdata.button_A = !stick.button(ArcadeStick::BUTTON_YELLOW);
+            snesdata.button_X = !stick.button(ArcadeStick::BUTTON_TOP_RIGHT);
+        }
+        else
+        {
+            /* Alternate Neo-Geo-style layout (BYXA) */
+            snesdata.button_Y = !stick.button(ArcadeStick::BUTTON_TOP_LEFT);
+            snesdata.button_B = !(stick.button(ArcadeStick::BUTTON_BLUE) || nes_pb_right);
+            snesdata.button_A = !stick.button(ArcadeStick::BUTTON_YELLOW);
+            snesdata.button_X = !stick.button(ArcadeStick::BUTTON_TOP_RIGHT);
+        }
+        
+        /* Neo-Geo layouts share the L/R positions */
+        snesdata.button_L = !(stick.button(ArcadeStick::BUTTON_GREEN) || bumper_pb_left);
+        snesdata.button_R = !(stick.button(ArcadeStick::BUTTON_RED) || bumper_pb_right);
+    }
+
+    /* Start/Select never move for now. */
     snesdata.button_Select = !stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
     snesdata.button_Start = !stick.button(ArcadeStick::BUTTON_FRONT_BLACK);
 }
