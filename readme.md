@@ -1,6 +1,6 @@
 This repository is for the firmware for a Teensy LC-powered Arcade Stick. This project uses the [MSF-XINPUT](https://github.com/zlittell/MSF-XINPUT) library by Zachery Littell for XInput protocol support and locally written code for mappings and SNES/NES support. Until the parent version is fully updated to support Teensuduino 1.44 (the version I used), I'm also hosting an [updated version of the library with compatibility with that version](https://github.com/zerkerX/MSF-XINPUT) locally.
 
-To use this project, install the Arduino IDE and Teensyduino, then the MSF-XINPUT library, then build and install with the Arduino IDE and the XInput USB type.
+To use this project, install the Arduino IDE and Teensyduino, then the MSF-XINPUT library, then build and install with the Arduino IDE and the XInput USB type. You can also use the included makefile to build easily outside the Arduino IDE, but you'll probably need to edit the IDE path to match your system.
 
 The joystick I used this library for has six main action buttons on top, two start/select buttons on the front, and two pinball buttons on the sides for a total of 10. It also has three toggle switches (well, a push button and two switches) for changing controller behaviour and layout, and a separate button hardwired to the Teensy's **Program** line. 
 
