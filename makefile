@@ -1,4 +1,4 @@
-ARDUINO_PATH = /opt/arduino-1.8.7
+ARDUINO_PATH = /opt/arduino-1.8.13
 BOARD = teensy:avr:teensyLC
 USB_PREF = custom_usb=teensyLC_xinput
 OPTIONS = --board $(BOARD) --pref $(USB_PREF) --pref build.path=build --preserve-temp-files

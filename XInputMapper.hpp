@@ -2,37 +2,19 @@
 #define XINPUT_MAPPER_HPP
 
 #include "ArcadeStick.hpp"
-#include <xinput.h>
+#include <XInput.h>
 
 class XInputMapper
 {
   public:
-    // To align with MSF XINPUT ordering
-    enum xbox_mapped_button_t {
-        XBOX_A = 0,
-        XBOX_B,
-        XBOX_X,
-        XBOX_Y,
-        XBOX_LB,
-        XBOX_RB,
-        XBOX_L3,
-        XBOX_R3,
-        XBOX_START,
-        XBOX_BACK,
-        XBOX_LOGO,
-        NUM_XBOX_BUTTONS
-    };
-
     XInputMapper(const ArcadeStick & stick) : stick(stick) {}
     
-    
-    void map_states(XINPUT & xinp)
+    void map_states()
     {
         // Selected mappings
         ArcadeStick::joystick_button_t lb, rb, lt, rt;
 
         // Xinput results:
-        uint8_t xbox_button_array[NUM_XBOX_BUTTONS] = {0};
         uint8_t pad_up = 0, pad_down = 0, 
             pad_left = 0, pad_right = 0;
         uint8_t left_trigger = 0;
@@ -60,16 +42,16 @@ class XInputMapper
         if (!stick.button(ArcadeStick::TOGGLE_SWITCH_2))
         {
             // Standard layout
-            xbox_button_array[XBOX_A] = stick.button(ArcadeStick::BUTTON_GREEN);
-            xbox_button_array[XBOX_B] = stick.button(ArcadeStick::BUTTON_RED);
-            xbox_button_array[XBOX_X] = stick.button(ArcadeStick::BUTTON_BLUE);
+            XInput.setButton(BUTTON_A, stick.button(ArcadeStick::BUTTON_GREEN));
+            XInput.setButton(BUTTON_B, stick.button(ArcadeStick::BUTTON_RED));
+            XInput.setButton(BUTTON_X, stick.button(ArcadeStick::BUTTON_BLUE));
         }
         else
         {
             // Fighting game layout
-            xbox_button_array[XBOX_X] = stick.button(ArcadeStick::BUTTON_TOP_LEFT);
-            xbox_button_array[XBOX_A] = stick.button(ArcadeStick::BUTTON_BLUE);
-            xbox_button_array[XBOX_B] = stick.button(ArcadeStick::BUTTON_GREEN);
+            XInput.setButton(BUTTON_X, stick.button(ArcadeStick::BUTTON_TOP_LEFT));
+            XInput.setButton(BUTTON_A, stick.button(ArcadeStick::BUTTON_BLUE));
+            XInput.setButton(BUTTON_B, stick.button(ArcadeStick::BUTTON_GREEN));
 
             // Re-select top button mappings (pinball buttons don't change)
             if (stick.button(ArcadeStick::TOGGLE_SWITCH_1))
@@ -85,20 +67,14 @@ class XInputMapper
         }
 
         // Y Button is always the same
-        xbox_button_array[XBOX_Y] = stick.button(ArcadeStick::BUTTON_YELLOW);
+        XInput.setButton(BUTTON_Y, stick.button(ArcadeStick::BUTTON_YELLOW));
 
-        xbox_button_array[XBOX_START] = stick.button(ArcadeStick::BUTTON_FRONT_BLACK);
-        xbox_button_array[XBOX_BACK] = stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
+        XInput.setButton(BUTTON_START, stick.button(ArcadeStick::BUTTON_FRONT_BLACK));
+        XInput.setButton(BUTTON_BACK, stick.button(ArcadeStick::BUTTON_FRONT_WHITE));
+        XInput.setButton(BUTTON_LOGO, stick.button(ArcadeStick::BUTTON_FRONT_CLEAR));
         
-        /* No dedicated logo button (not needed on Windows), but if using adaptor
-         * for PS3/PS4, both front buttons will have that effect.
-         * Hopefully there's no need to explicitly disable the start/back buttons
-         * in this scenario */
-        xbox_button_array[XBOX_LOGO] = stick.button(ArcadeStick::BUTTON_FRONT_BLACK) 
-            && stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
-        
-        xbox_button_array[XBOX_LB] = stick.button(lb);
-        xbox_button_array[XBOX_RB] = stick.button(rb);
+        XInput.setButton(BUTTON_LB, stick.button(lb));
+        XInput.setButton(BUTTON_RB, stick.button(rb));
         
         if (stick.button(lt))
             left_trigger = 255;
@@ -143,10 +119,10 @@ class XInputMapper
         }
         
         // Assign to the xinput device
-        xinp.buttonArrayUpdate(xbox_button_array);
-        xinp.dpadUpdate(pad_up, pad_down, pad_left, pad_right);
-        xinp.triggerUpdate(left_trigger, right_trigger);
-        xinp.stickUpdate(STICK_LEFT, xaxis, yaxis);
+        XInput.setDpad(pad_up, pad_down, pad_left, pad_right);
+        XInput.setTrigger(TRIGGER_LEFT,  left_trigger);
+        XInput.setTrigger(TRIGGER_RIGHT, right_trigger);
+        XInput.setJoystick(JOY_LEFT, xaxis, yaxis);
     }
     
    
