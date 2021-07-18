@@ -21,6 +21,7 @@ class ArcadeStick
         BUTTON_PB_RIGHT,
         BUTTON_FRONT_WHITE,
         BUTTON_FRONT_BLACK,
+        BUTTON_FRONT_CLEAR,
         TOGGLE_PUSH,
         TOGGLE_SWITCH_1,
         TOGGLE_SWITCH_2,
@@ -69,6 +70,7 @@ class ArcadeStick
         7, // BUTTON_PB_RIGHT
         5, // BUTTON_FRONT_WHITE
         6, // BUTTON_FRONT_BLACK
+        11, // BUTTON_FRONT_CLEAR
         9, // TOGGLE_PUSH
         8, // TOGGLE_SWITCH_1
         10, // TOGGLE_SWITCH_2

@@ -89,13 +89,7 @@ class XInputMapper
 
         xbox_button_array[XBOX_START] = stick.button(ArcadeStick::BUTTON_FRONT_BLACK);
         xbox_button_array[XBOX_BACK] = stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
-        
-        /* No dedicated logo button (not needed on Windows), but if using adaptor
-         * for PS3/PS4, both front buttons will have that effect.
-         * Hopefully there's no need to explicitly disable the start/back buttons
-         * in this scenario */
-        xbox_button_array[XBOX_LOGO] = stick.button(ArcadeStick::BUTTON_FRONT_BLACK) 
-            && stick.button(ArcadeStick::BUTTON_FRONT_WHITE);
+        xbox_button_array[XBOX_LOGO] = stick.button(ArcadeStick::BUTTON_FRONT_CLEAR);
         
         xbox_button_array[XBOX_LB] = stick.button(lb);
         xbox_button_array[XBOX_RB] = stick.button(rb);
